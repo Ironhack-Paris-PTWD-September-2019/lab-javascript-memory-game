@@ -45,11 +45,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     card.onclick = function() {
   
       memoryGame.pickedCards.push(card);
-      console.log("stack ",memoryGame.pickedCards);
       //return card visually 
       returnCard(card);
+
       //check if pair 
-      if(memoryGame.pickedCards.length===3){
+      setTimeout(function(){
+      if(memoryGame.pickedCards.length===2){
         let pair= memoryGame.checkIfPair(memoryGame.pickedCards[0].getAttribute("name"),memoryGame.pickedCards[1].getAttribute("name"));
         if(!pair){
           returnCard(memoryGame.pickedCards[0]);
@@ -57,8 +58,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
         }
-        memoryGame.pickedCards.shift();
-        memoryGame.pickedCards.shift();
+        memoryGame.pickedCards=[];
 
         }
       
@@ -72,7 +72,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     
       console.log('Card clicked: ', card);
+    }, 500);
+  
     };
+  
   });
 });
 
