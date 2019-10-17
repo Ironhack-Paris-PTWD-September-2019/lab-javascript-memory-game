@@ -31,21 +31,62 @@ document.addEventListener("DOMContentLoaded", function(event) {
   let html = '';
   memoryGame.cards.forEach(pic => {
     html += `<div class="card" data-card-name="${pic.name}">`;
-    html += `<div class="back" name="${pic.img}"></div>`;
-    html += `<div class="front" style="background: url(img/${pic.img}) no-repeat"></div>`;
+    html += `<div class="upper-div back" name="${pic.img}"></div>`;
+    html += `<div class="lower-div front" style="background: url(img/${pic.img}) no-repeat"></div>`;
     html += `</div>`;
   });
 
   // Add all the divs to the HTML
   document.querySelector('#memory_board').innerHTML = html;
+ 
 
   // Bind the click event of each element to a function
-  document.querySelectorAll('.back').forEach( card => {
+  document.querySelectorAll('.upper-div').forEach( card => {
     card.onclick = function() {
-      // TODO: write some code here
+  
+      memoryGame.pickedCards.push(card);
+      console.log("stack ",memoryGame.pickedCards);
+      //return card visually 
+      returnCard(card);
+      //check if pair 
+      if(memoryGame.pickedCards.length===3){
+        let pair= memoryGame.checkIfPair(memoryGame.pickedCards[0].getAttribute("name"),memoryGame.pickedCards[1].getAttribute("name"));
+        if(!pair){
+          returnCard(memoryGame.pickedCards[0]);
+          returnCard(memoryGame.pickedCards[1]);
+
+
+        }
+        memoryGame.pickedCards.shift();
+        memoryGame.pickedCards.shift();
+
+        }
+      
+       
+      //change scores 
+
+      let $pClicked=document.getElementById("pairs_clicked");
+      let $pGuessed=document.getElementById("pairs_guessed"); 
+      $pClicked.innerHTML=memoryGame.pairsClicked; 
+      $pGuessed.innerHTML=memoryGame.pairsGuessed; 
+
+    
       console.log('Card clicked: ', card);
     };
   });
 });
+
+
+//DOES NOT WORK
+function returnCard(card){
+  if(card.className==="upper-div back") { 
+    card.className="upper-div front"; 
+    card.parentElement.querySelector(".lower-div").className="lower-div back";
+  } else {
+    card.className="upper-div back";
+    card.parentElement.querySelector(".lower-div").className="lower-div front";
+  }
+
+}
 
 
