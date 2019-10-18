@@ -41,42 +41,48 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
   // // Bind the click event of each element to a function
 
-  function showCard(card) {
-    card.className = 'front';
-    card.nextElementSibling.className = 'back';
+  function showCard($card) {
+    $card.className = 'front';
+    $card.nextElementSibling.className = 'back';
   }
-  function hideCard(card) {
-    card.className = 'back';
-    card.nextElementSibling.className = 'front';
-  }
-
-  function cardName(card) {
-    return card.parentNode.dataset.cardName;
+  function hideCard($card) {
+    $card.className = 'back';
+    $card.nextElementSibling.className = 'front';
   }
 
-  let playingCard;
-  document.querySelectorAll('.back').forEach(card => {
-    card.onclick = function() {
-      console.log('Card clicked: ', card);
+  function cardName($card) {
+    return $card.parentNode.dataset.cardName;
+  }
 
-      // show it
-      showCard(card);
+  let $playingCard; // `$playingCard` is the card we are trying to find
+  document.querySelectorAll('.back').forEach($card => {
+    $card.onclick = function() {
+      console.log('Card clicked: ', $card);
 
-      if (playingCard) {
-        if (memoryGame.checkIfPair(cardName(card), cardName(playingCard))) {
+      // We turn over the card in any case
+      showCard($card);
+
+      if ($playingCard) {
+        // We compare our `card` with `$playingCard`
+        if (memoryGame.checkIfPair(cardName($card), cardName($playingCard))) {
           console.log('yes!');
         } else {
           console.log('no!');
-          let playingCardCopy = playingCard; // we make a copy because `playingCard` is about to be `undefined` and will in 1000ms
+
+          //
+          // Let's hide to 2 cards in 0.5s
+          //
+          let $playingCardCopy = $playingCard; // we make a copy because `$playingCard` is about to be `undefined` and will in 1000ms
           setTimeout(function () {
-            hideCard(playingCardCopy);
-            hideCard(card);
+            hideCard($playingCardCopy);
+            hideCard($card);
           }, 500);
         }
 
-        playingCard = undefined;
+        $playingCard = undefined; // we reset `$playingCards`
       } else {
-        playingCard = card;  
+        // let's define our new `$playingCard` (the one we will try to find the next click)
+        $playingCard = $card;
       }
 
       //
