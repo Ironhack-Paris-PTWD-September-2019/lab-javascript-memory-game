@@ -38,6 +38,7 @@ html {
   padding: 20px;
   padding-top: 0;
   margin-left: 75%;
+  color: #FFF;
 }
 
 .container {
@@ -54,7 +55,7 @@ h1 {
 }
 
 h2 {
-  color: #456783;
+  color: #FFF;
   font-weight: bolder;
   font-size: 35px;
   text-align: center;
