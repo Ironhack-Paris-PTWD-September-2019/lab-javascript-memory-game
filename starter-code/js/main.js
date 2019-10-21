@@ -26,7 +26,12 @@ const cards = [
 ];
 
 const memoryGame = new MemoryGame(cards);
+memoryGame.shuffleCards();
+var pairCards = [];
+var pairCardsDOM = [];
 
+/* Each card's information is dynamically filled in the tiles, and the board is pre-filled with cards for us. 
+As we want this behavior to be triggered as soon as the page loads, we need to wrap it under a DOMContentLoaded event. */
 document.addEventListener("DOMContentLoaded", function(event) {
 	let html = "";
 	memoryGame.cards.forEach(pic => {
@@ -43,7 +48,47 @@ document.addEventListener("DOMContentLoaded", function(event) {
 	document.querySelectorAll(".back").forEach(card => {
 		card.onclick = function() {
 			// TODO: write some code here
-			console.log("Card clicked: ", card);
+			function toggle(card) {
+				if (card.classList.contains("back")) {
+					card.classList.remove("back");
+					card.classList.add("front");
+					card.nextSibling.classList.remove("front");
+					card.nextSibling.classList.add("back");
+				} else {
+					card.classList.remove("front");
+					card.classList.add("back");
+					card.nextSibling.classList.remove("back");
+					card.nextSibling.classList.add("front");
+				}
+			}
+
+			toggle(card);
+			// Ajout du nom de la carte et du DOM de la carte
+			pairCards.push(card.parentNode.getAttribute("data-card-name"));
+			pairCardsDOM.push(card);
+
+			if (pairCards.length > 2) {
+				tmp_pairsGuessed = memoryGame.pairsGuessed;
+				// Comparaison
+				memoryGame.checkIfPair(pairCards[0], pairCards[1]);
+
+				// Update du DOM clicked et guessed
+				document.querySelector("#pairs_clicked").innerHTML =
+					memoryGame.pairsClicked;
+				document.querySelector("#pairs_guessed").innerHTML =
+					memoryGame.pairsGuessed;
+
+				// Toggle si 2 cartes différentes (i.e. nb de paires devinées constant)
+				if (memoryGame.pairsGuessed === tmp_pairsGuessed) {
+					toggle(pairCardsDOM[0]);
+					toggle(pairCardsDOM[1]);
+				}
+
+				// Reset des paires
+				pairCards = [pairCards[2]];
+				pairCardsDOM = [pairCardsDOM[2]];
+			}
+			console.log("Pair after: ", pairCards);
 		};
 	});
 });
