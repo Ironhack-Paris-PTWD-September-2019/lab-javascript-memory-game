@@ -43,9 +43,40 @@ document.addEventListener("DOMContentLoaded", function(event) {
   document.querySelectorAll('.back').forEach( card => {
     card.onclick = function() {
       // TODO: write some code here
+      if (card.parentNode.children[0].classList.contains("back")==true){
+        card.parentNode.children[0].classList.add("front");
+        card.parentNode.children[0].classList.remove("back");
+      } 
+
+      if (card.parentNode.children[1].classList.contains("front")==true){
+        card.parentNode.children[1].classList.add("back");
+        card.parentNode.children[1].classList.remove("front");        
+      }
+
+      memoryGame.pickedCards.push(card.parentNode.getAttribute("data-card-name"));
+      document.getElementById("pairs_clicked").innerHTML=memoryGame.pickedCards.length/2;
+
       console.log('Card clicked: ', card);
     };
   });
+
+  document.querySelectorAll('.front').forEach( card => {
+    card.onclick = function() {
+      // TODO: write some code here
+      if (card.parentNode.children[0].classList.contains("front")==true){
+        card.parentNode.children[0].classList.add("back");
+        card.parentNode.children[0].classList.remove("front");
+      } 
+
+      if (card.parentNode.children[1].classList.contains("back")==true){
+        card.parentNode.children[1].classList.add("front");
+        card.parentNode.children[1].classList.remove("back");        
+      }
+
+      console.log('Card clicked: ', card);
+    };
+  });
+
 });
 
 
