@@ -24,14 +24,17 @@ class MemoryGame {
     return cards;
   }
 
-  checkIfPair(card1, card2) {
-    pairsClicked+=1;
-    if (card1.name=card2.name){
-      pairsGuessed+=1;
+  checkIfPair(pickedCards) {
+    if (pickedCards.length%2===0){
+      this.pairsClicked=1;
+      if (pickedCards[0].substring(0, pickedCards[0].length - 1)===pickedCards[1].substring(0, pickedCards[1].length - 1)){
+      this.pairsGuessed+=1;
+      }
     }
+    return this.pairsClicked;
   }
   isFinished(cards) {
-    if (pairsGuessed===cards.length/2){
+    if (this.pairsGuessed===cards.length/2){
       return true;
     } else {
       return false;
