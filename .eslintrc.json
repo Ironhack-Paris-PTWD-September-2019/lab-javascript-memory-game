@@ -16,5 +16,6 @@
         "max-len": "off",
         "no-undef": "off",
         "no-param-reassign": "off"
-    }
+    },
+    "eslint.options": { "configFile": "/Users/pierre/projects/ironhack/ironhack-labs/lab-javascript-memory-game/" }
 }
